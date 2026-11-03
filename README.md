@@ -214,9 +214,3 @@ githound-doghouse/
 ├── package.json
 └── README.md
 ```
-
----
-
-## 📜 License
-
-MIT © [Andrew Evans](https://github.com/andrewevans0102)
