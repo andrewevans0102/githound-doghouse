@@ -1,0 +1,30 @@
+{
+  "name": "githound-doghouse",
+  "version": "1.0.0",
+  "description": "Example repository demonstrating GitHound human-in-the-loop AI workflows with an ASCII art doghouse",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test",
+    "typecheck": "node --check src/index.js test/doghouse.test.js"
+  },
+  "keywords": [
+    "githound",
+    "doghouse",
+    "ascii-art",
+    "agent",
+    "hitl",
+    "github-actions"
+  ],
+  "author": "Andrew Evans",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewevans0102/githound-doghouse.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andrewevans0102/githound-doghouse/issues"
+  },
+  "homepage": "https://github.com/andrewevans0102/githound-doghouse#readme"
+}
