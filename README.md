@@ -99,10 +99,7 @@ on:
   pull_request_review_comment:
     types: [created]
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
+permissions: {}
 
 jobs:
   # Optional: Guard repository against unauthorized issues opened by non-owners
@@ -113,16 +110,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Guard Non-Owner Issue
-        uses: andrewevans0102/githound/issue-guard@main
+        uses: andrewevans0102/githound/issue-guard@6e6ac0aad8adf0b1962a7effc1199884ffba9ac3
 
   # Main GitHound Human-in-the-Loop agent workflow
   hound:
     if: >
       (github.actor == github.repository_owner || github.event.sender.author_association == 'OWNER') && (
-        (github.event_name == 'issues' && github.event.label.name == 'githound' && (github.event.issue.user.login == github.repository_owner || github.event.issue.author_association == 'OWNER')) ||
+        (github.event_name == 'issues' && github.event.action == 'labeled' && github.event.label.name == 'githound' && (github.event.issue.user.login == github.repository_owner || github.event.issue.author_association == 'OWNER')) ||
         (github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '/hound')) ||
         (github.event_name == 'pull_request_review_comment' && startsWith(github.event.comment.body, '/hound'))
       )
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -130,21 +131,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
       - name: Run GitHound
-        uses: andrewevans0102/githound@main
+        uses: andrewevans0102/githound@6e6ac0aad8adf0b1962a7effc1199884ffba9ac3
         with:
           gemini-api-key: ${{ secrets.GEMINI_API_KEY }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           test-cmd: "npm test"
           typecheck-cmd: "npm run typecheck"
           max-retries: "3"
           base-branch: "main"
 ```
+
+This example pins the tested GitHound commit while the first Marketplace release is being prepared. After that release is published, you can use `andrewevans0102/githound@v1` and `andrewevans0102/githound/issue-guard@v1` instead.
 
 ---
 
